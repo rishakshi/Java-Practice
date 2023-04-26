@@ -10,7 +10,7 @@ public class DataStreamClass {
 	
 	public static void main(String[] args) throws IOException{
 		
-		FileOutputStream fout = new FileOutputStream("D:\\Wiley Edge Training\\Java Practice\\day4_class\\Wiley_core_java\\data\\data2.txt");
+		FileOutputStream fout = new FileOutputStream("D:\\Wiley Edge Training\\Java Practice\\day4_5_class\\Wiley_core_java\\data\\data2.txt");
 		
 		DataOutputStream dos = new DataOutputStream(fout);
 		
@@ -19,7 +19,7 @@ public class DataStreamClass {
 		dos.flush();
 		dos.close();
 		
-		FileInputStream fin = new FileInputStream("D:\\Wiley Edge Training\\Java Practice\\day4_class\\Wiley_core_java\\data\\data2.txt");
+		FileInputStream fin = new FileInputStream("D:\\Wiley Edge Training\\Java Practice\\day4_5_class\\Wiley_core_java\\data\\data2.txt");
 		DataInputStream dis = new DataInputStream(fin);
 		
 		int count = fin.available();

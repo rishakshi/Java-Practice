@@ -11,7 +11,7 @@ public class BOStream {
 
 	public static void main(String[] args) throws IOException {
 
-//		FileOutputStream fout = new FileOutputStream("D:\\Wiley Edge Training\\Java Practice\\day4_class\\Wiley_core_java\\data\\data1.txt");
+//		FileOutputStream fout = new FileOutputStream("D:\\Wiley Edge Training\\Java Practice\\day4_5_class\\Wiley_core_java\\data\\data1.txt");
 //		BufferedOutputStream bof = new BufferedOutputStream(fout);
 //		
 //		String str = "I am a programmer";
@@ -30,7 +30,7 @@ public class BOStream {
 //		}
 
 		FileInputStream fin = new FileInputStream(
-				"D:\\Wiley Edge Training\\Java Practice\\day4_class\\Wiley_core_java\\data\\data1.txt");
+				"D:\\Wiley Edge Training\\Java Practice\\day4_5_class\\Wiley_core_java\\data\\data1.txt");
 		BufferedInputStream bis = new BufferedInputStream(fin);
 		
 		int i;
