@@ -25,7 +25,6 @@ public class StreamsClass {
 		// Readable Flexible Parallelism
 		
 		List<String> list = Arrays.asList("Java", "pyton","idhiwh");
-		Stream<String> ms = list.stream();
 		
 		String[] arr = {"Java", "Python", "Ang"};
 		Stream<String> msa = Arrays.stream(arr);
