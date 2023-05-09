@@ -2,12 +2,6 @@ package streams;
 
 public class Student {
 
-	@Override
-	public String toString() {
-		return "Student [Id=" + Id + ", problems_solved=" + problems_solved + ", name=" + name + ", grade=" + grade
-				+ "]";
-	}
-
 	private int Id, problems_solved;
 	private String name;
 	private double grade;
@@ -20,6 +14,12 @@ public class Student {
 		this.grade = grade;
 	}
 
+	@Override
+	public String toString() {
+		return "Student [Id=" + Id + ", problems_solved=" + problems_solved + ", name=" + name + ", grade=" + grade
+				+ "]";
+	}
+	
 	public int getId() {
 		return Id;
 	}
