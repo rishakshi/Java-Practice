@@ -1,59 +1,8 @@
--- select
---     select_list
--- from
---     table_name
--- order by
---     column1 [asc];
+-- sort data by last NAME
+SELECT contactLastName, contactFirstName from customers ORDER BY `contactLastName`;
+SELECT contactLastName, contactFirstName from customers ORDER BY `contactLastName` DESC, `contactFirstName` ASC;
 
--- from select order by
-select
-    contactLastname,
-    contactFirstname
-from
-    customers
-order by
-    contactLastname;
+-- orderline items from orderDetails table to calculate subtotal and sort subtotal
+SELECT orderNumber, orderLineNumber, quantityOrdered*priceEach AS subtotal FROM orderDetails ORDER BY subtotal DESC LIMIT 10;
 
-select
-    contactLastname,
-    contactFirstname
-from
-    customers
-order by
-    contactLastname desc;
-    
-select
-    contactLastname,
-    contactFirstname
-from
-    customers
-order by
-    contactLastname desc,
-    contactFirstname ASC;
-
-select
-    orderNumber,
-    orderlinenumber,
-    quantityOrdered * priceEach as subtotal
-from
-    orderdetails
-order by
-    subtotal desc;
-    
-select 
-orderNumber,status
-from orders
-order by field(status,"In process" , "Disputed", "On hold ","cancelled","resolved","shipped");
-
-SELECT
-    firstName, lastName, reportsTo
-FROM
-    employees
-ORDER BY reportsTo;
-
--- if you use the ORDER BY with the DESC option, NULLs will appear last in the result set.
-SELECT 
-    firstName, lastName, reportsTo
-FROM
-    employees
-ORDER BY reportsTo DESC;
+SELECT orderNumber, status from orders ORDER BY FIELD(status,"In Process","On Hold", "Cancelled", "Resolved","Disputed","Shipped");

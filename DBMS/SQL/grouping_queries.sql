@@ -1,90 +1,92 @@
-select status
-from orders
-group by status;
+--group by works with aggregate functions
+SELECT status FROM orders GROUP BY status;
+--just returns distinct values
+SELECT DISTINCT status from orders;
 
-select status, sum(quantityOrdered * priceEach) as amount
-from orders
-inner join orderdetails using (orderNumber)
-order by status;
+SELECT status, COUNT(*) FROM orders GROUP BY status;
 
--- total sales of each year
-select year(orderDate), sum(quantityOrdered * priceEach) as amount
-from orders
-inner join orderdetails using (orderNumber)
-where status = 'shipped'
-group by year(orderDate)
-order by status;
+-- get the total amount of all the order by status, join order table with orderdetails table
 
-select year(orderDate) as year, sum(quantityOrdered * priceEach) as amount
-from orders
-inner join orderdetails using (orderNumber)
-where status = 'shipped'
-group by year
-having year > 2003
-order by status;
+SELECT status, SUM(quantityOrdered*priceEach) AS Amount FROM orders INNER JOIN orderDetails
+    USING (`orderNumber`)
+    GROUP BY orderNumber; 
+    
+-- get the total amount of all the order by each year, join order table with orderdetails table
+SELECT YEAR(orderDate), SUM(quantityOrdered*priceEach) AS Amount FROM orders INNER JOIN orderDetails
+    USING (`orderNumber`)
+    WHERE status="Shipped"
+    GROUP BY YEAR(orderDate); 
 
--- number of orders per year
-select year(orderDate) as year, count(*) as TotalOrders
-from orders
-group by year;
+--GROUP BY WITH HAVING CLAUSE
+-- select the total sales of the years after 2004
+SELECT YEAR(orderDate) AS year, SUM(quantityOrdered*priceEach) AS Amount FROM orders INNER JOIN orderDetails
+    WHERE status="Shipped" GROUP BY year HAVING year > 2003;
 
-select year(orderDate) as year, count(*) as TotalOrders
-from orders
-where status = 'shipped'
-group by year
-order by status desc;
+--number of orders per YEAR
+SELECT YEAR(orderDate) AS year, COUNT(*) AS NoOfOrders FROM orders GROUP BY year;
+--number of orders per year by status desc
+SELECT YEAR(orderDate) AS year, status, COUNT(*) AS NoOfOrders FROM orders  GROUP BY status, year;
+--status count
+SELECT status, COUNT(*) AS StatusCount from orders GROUP BY status;
 
-select year(orderDate) as year, count(*) as TotalOrders
-from orders
-where status = 'shipped'
-group by year
-order by status desc;
+SELECT orderNumber, SUM(quantityOrdered) AS ItemsCount, SUM(priceEach*quantityOrdered) AS Total FROM orderDetails
+    GROUP BY `orderNumber`;
+
+SELECT orderNumber, SUM(quantityOrdered) AS ItemsCount, SUM(priceEach*quantityOrdered) AS Total FROM orderDetails
+    GROUP BY `orderNumber`
+    HAVING total> 1000 AND ItemsCount > 600;
+
+SELECT a.orderNumber, status, SUM(priceEach*quantityOrdered) AS total from orderDetails a INNER JOIN orders b 
+ON a.`orderNumber` = b.orderNumber 
+GROUP BY orderNumber, status 
+HAVING status="Shipped" AND total > 1500;
+
+--ROLLUP
+CREATE TABLE sales
+    SELECT productLine, YEAR(orderDate) AS orderYear, SUM(quantityOrdered*priceEach) AS total
+    FROM orderDetails 
+    INNER JOIN orders USING (orderNumber)
+    INNER JOIN products USING (productCode)
+    GROUP BY productLine, orderYear; 
 
 SELECT
-    orderNumber,
-    SUM(quantityOrdered) AS itemsCount,
-    SUM(priceEach * quantityOrdered) AS total
-FROM
-    orderDetails
-GROUP BY
-    orderNumber;
+    productLine, SUM(total) AS totalOrderValue
+FROM sales
+GROUP BY productLine;
 
-select a.orderNumber, status, sum(priceEach * quantityOrdered) as total
-from orderDetails a
-inner join orders b on b.orderNumber = a.orderNumber
-group by orderNumber, status
-having status = 'shipped' and total > 1500;
+--create an empty GROUP 
+SELECT SUM(total) AS totalOrderValue FROM sales;
 
--- create table sales
-create table sales
-select productline, year(orderDate) orderYear, sum(priceEach * quantityOrdered) as orderValue
-from orderDetails
-inner join orders Using(orderNumber)
-inner join products using(productCode)
-group by productline, orderYear;
-
-select productline, sum(orderValue) totalOrderValue
-from sales
-group by productline;
-
-select productline, sum(ordervalue) totalOrderValue
-from sales
-group by productline
+--two or more GROUPS into one query (eg grand total).
+SELECT productLine, SUM(total) AS totalOrderValue
+FROM sales
+GROUP BY `productLine`
 UNION ALL
-select null, sum(ordervalue) totalOrderValue
-from sales;
+SELECT NULL, SUM(total) totalOrderValue 
+FROM sales;
 
-select productline, sum(ordervalue) totalOrderValue
-from sales
-group by productline with rollup;
+--ROLLUP
+SELECT
+    productLine, SUM(total) AS totalOrderValue
+FROM sales
+GROUP BY productLine WITH ROLLUP;
 
-select orderYear, productline, sum(ordervalue) totalOrderValue
-from sales
-group by orderYear, productline with rollup;
+SELECT 
+    orderYear,
+    productLine,
+    SUM(total) AS totalOrderValue
+    FROM sales
+    GROUP BY orderYear, `productLine`
+    WITH ROLLUP;
 
-select 
-	if(Grouping(orderYear), 'All Years', orderYear) oderYear,
-	if(grouping(productline), 'All product line', productline) productline,
-    sum(orderValue) totalOrderValue
-from sales
-group by orderYear, productline with rollup;
+--orderYear > productLine
+-- to check whether null in the result set represent subtotal or grand totals, we use GROUPING() FUNCTION
+-- return 1 when null occurs in super AGGREGATE ROW
+
+SELECT
+    IF(GROUPING(orderYear),'All Years', orderYear) orderYear,
+    IF(GROUPING(productLine),"All Product Line", `productLine`) productLine,
+    SUM(total) totalOrderValue
+FROM sales
+GROUP BY `orderYear`,`productLine` WITH ROLLUP;
+

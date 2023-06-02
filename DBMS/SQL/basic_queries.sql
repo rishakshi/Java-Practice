@@ -1,70 +1,32 @@
-drop database mydatabase;
-
+-- show databases
 show databases;
-
-create database WileyEdge;
-
-use WileyEdge;
-
--- Qyerying the data
--- Sorting the data
--- Filter data
--- Joins
--- Groups Data
--- SubQueries
--- CME common table expression
--- Set operators
--- Modify data
--- MySQL Transaction
--- Manage database
--- ....
-
-/* Create Table*/
-create table course_list (
-    course_id INT NOT NULL AUTO_INCREMENT,
-    course_title VARCHAR(100) NOT NULL,
-    course_author VARCHAR(40) NOT NULL,
-    creation_date DATE,
-    PRIMARY KEY (course_id)
+-- create database
+CREATE database wiley;
+-- select database
+USE wiley;
+SHOW TABLES;
+-- create a table
+CREATE TABLE students(
+	id INTEGER, 
+    Name VARCHAR(20),
+    Contact VARCHAR(10), 
+	Grade DOUBLE,
+	UNIQUE(id)
 );
-
-/* Drop Table*/
-drop table course_list;
-
-/** Insert into table **/
-
-INSERT INTO course_list (course_title, course_author, creation_date) 
-    VALUES
-    ("Java", "Venkat", NOW()),
-    ("Python", "Trupthi", NOW()),
-    ("MySQL", "Deepak", NOW());
-
--- Querying Data
--- Select queries 
-
-SELECT select_list FROM table_name;
-
-SELECT lastName
-FROM employees;
-
-SELECT 
-    lastName, 
-    firstName, 
-    jobTitle
-FROM
-    employees;
-
-
-SELECT * 
-FROM employees;
-
-SELECT 1 + 1;    
-
-SELECT NOW();
-
-SELECT CONCAT('John',' ','Doe');
-
--- column alias
-SELECT expression AS column_alias;
-SELECT CONCAT('John',' ','Doe') AS name;
-SELECT CONCAT('Jane',' ','Doe') AS 'Full name';
+-- inserting values into the table
+INSERT INTO students value(1,
+	"Praveen",
+	"8610571051",
+	90.6);
+    INSERT INTO students value(2,
+	"Anon",
+	"9936829362",
+	88.7);
+-- show content of the tables
+SELECT * FROM students;
+-- drop table
+DROP TABLE students;
+ShOW TABLES;
+-- drop the database
+DROP DATABASE wiley;
+SHOW DATABASES;
