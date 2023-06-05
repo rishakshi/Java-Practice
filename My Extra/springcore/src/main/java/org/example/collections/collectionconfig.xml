@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/spring-context.xsd">
+
+<!--    Setter Injection-->
+    <bean class="org.example.collections.Emp" name="emp1">
+        <property name="name" value="Radha"/>
+        <property name="phones">
+<!--            if there is only one value in set or list,
+                you can skip list and set tag and directly
+                write value tag.-->
+            <list>
+                <value>111111</value>
+                <value>222222</value>
+                <value>333333</value>
+                <value>444444</value>
+                <null/>
+            </list>
+        </property>
+        <property name="addresses">
+            <set>
+                <value>Jaipur</value>
+                <value>Lucknow</value>
+                <value>Gwalior</value>
+                <value>Pune</value>
+            </set>
+        </property>
+        <property name="courses">
+            <map>
+                <entry key="Java" value="2 Month"/>
+                <entry key="Python" value="3 Month"/>
+                <entry key="Spring framework" value="5 Month"/>
+            </map>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="name">Krishna</prop>
+                <prop key="age">22</prop>
+            </props>
+        </property>
+    </bean>
+
+
+
+</beans>

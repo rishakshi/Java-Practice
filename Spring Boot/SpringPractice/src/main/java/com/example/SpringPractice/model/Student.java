@@ -29,6 +29,6 @@ public class Student {
             @JoinColumn(name="course_id", referencedColumnName="id")
         }
     )
-    @JsonManagedReference
+//    @JsonManagedReference
     private Set<Courses> courses;
 }
